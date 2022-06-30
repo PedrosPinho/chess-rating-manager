@@ -43,7 +43,7 @@ const AppBar = ({ currentVersion }) => {
   const [open, setOpen] = useState(false)
 
   return (
-    <AppBarMui position="sticky" elevation={1}>
+    <AppBarMui position="sticky" elevation={1} color="#fff">
       <Toolbar>
         <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => setOpen(true)}>
           <MenuIcon />
