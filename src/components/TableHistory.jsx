@@ -17,20 +17,28 @@ const TableHistory = ({ classes, currentVersion }) => {
 
   useEffect(() => {
     Fdb.collection('games')
+      .limit(21)
       .get()
-      .then(async (games) => {
-        let tempRows = await Promise.all(games.docs.map(async game => {
-          const gameDt = game.data()
-          const { players, tournament } = gameDt
-          const black = await players.black.ref.get()
-          const white = await players.white.ref.get()
-          const trnment = await tournament.get()
-          const plyrs = {
-              black: { ...players.black, ...black.data()},
-              white: { ...players.white, ...white.data()},
+      .then(async games => {
+        let tempRows = await Promise.all(
+          games.docs.map(async game => {
+            const gameDt = game.data()
+            const { players, tournament } = gameDt
+            const black = await players.black.ref.get()
+            const white = await players.white.ref.get()
+            const trnment = await tournament.get()
+            const plyrs = {
+              black: { ...players.black, ...black.data() },
+              white: { ...players.white, ...white.data() },
             }
-          return { ...gameDt, date: gameDt?.date.toDate(), players: plyrs, tournament: trnment.data()}
-        }))
+            return {
+              ...gameDt,
+              date: gameDt?.date.toDate(),
+              players: plyrs,
+              tournament: trnment.data(),
+            }
+          })
+        )
         setRows(
           tempRows.sort((a, b) => {
             return b.date - a.date
@@ -77,8 +85,12 @@ const TableHistory = ({ classes, currentVersion }) => {
                 <TableCell component="th" scope="row">
                   {row?.date?.toLocaleDateString()}
                 </TableCell>
-                <TableCell align="left">{row?.players?.white?.name} {row?.players?.white?.ratingATM}</TableCell>
-                <TableCell align="left">{row?.players?.black?.name} {row?.players?.black?.ratingATM}</TableCell>
+                <TableCell align="left">
+                  {row?.players?.white?.name} {row?.players?.white?.ratingATM}
+                </TableCell>
+                <TableCell align="left">
+                  {row?.players?.black?.name} {row?.players?.black?.ratingATM}
+                </TableCell>
                 <TableCell align="left">{row?.result}</TableCell>
                 <TableCell align="left">{row?.tournament.name}</TableCell>
                 <TableCell align="left">{row?.tournament.id.substr(0, 5)}</TableCell>

@@ -15,6 +15,7 @@ import {
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import { routes } from '../routes/routes'
+import Auth from '../config/auth'
 
 const ListItems = ({ setOpen, currentVersion }) => (
   <div role="presentation" style={{ width: '250px', height: '100%' }}>
@@ -33,6 +34,7 @@ const ListItems = ({ setOpen, currentVersion }) => (
         </ListItem>
       ))}
     </List>
+    <Auth />
     <Typography variant="h6" style={{ padding: '16px' }}>
       {currentVersion}
     </Typography>

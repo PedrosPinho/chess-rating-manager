@@ -17,16 +17,20 @@ const TableTournaments = ({ classes, currentVersion }) => {
 
   useEffect(() => {
     Fdb.collection('tournaments')
+      .limit(15)
+      .orderBy('date.start')
       .get()
       .then(tournaments => {
-        let tempRows = tournaments.docs.filter(t => t.id !== 'not-tournament').map(tournament => {
+        let tempRows = tournaments.docs
+          .filter(t => t.id !== 'not-tournament')
+          .map(tournament => {
             const tournamentDt = tournament.data()
             const tournamentDates = {
               dateIni: tournamentDt?.date?.start?.toDate(),
               dateFim: tournamentDt?.date?.end?.toDate(),
             }
             return { ...tournamentDt, ...tournamentDates }
-        })
+          })
         setRows(
           tempRows.sort((a, b) => {
             return b.date - a.date

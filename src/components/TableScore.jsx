@@ -17,6 +17,8 @@ const TableScore = ({ classes, currentVersion }) => {
 
   useEffect(() => {
     Fdb.collection('players')
+      .limit(15)
+      .orderBy('rating')
       .get()
       .then(players => {
         let tempRows = players.docs.map(player => player.data())

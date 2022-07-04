@@ -12,6 +12,7 @@ import {
   Typography,
   Button,
   Snackbar,
+  Checkbox,
 } from '@material-ui/core'
 
 const convertArrayToObject = (array, key) => {
@@ -46,6 +47,7 @@ const InsertGame = ({ classes, currentVersion }) => {
   const [playerInfo, setPlayerInfo] = useState({})
   const [tournamentInfo, setTournamentInfo] = useState({})
   const [loading, setLoading] = useState(true)
+  const [keepSelected, setKeepSelected] = useState(false)
 
   const [white, setWhite] = useState('')
   const [black, setBlack] = useState('')
@@ -62,6 +64,9 @@ const InsertGame = ({ classes, currentVersion }) => {
   }
   const handleChangeResult = event => {
     setResult(event.target.value)
+  }
+  const handleChangeKeepSelected = event => {
+    setKeepSelected(!keepSelected)
   }
 
   const getResult = () => {
@@ -105,7 +110,7 @@ const InsertGame = ({ classes, currentVersion }) => {
       setTournamentInfo({})
       setWhite('')
       setBlack('')
-      setTournament('')
+      if (!keepSelected) setTournament('')
       setOpen(true)
       setLoading(true)
 
@@ -248,6 +253,11 @@ const InsertGame = ({ classes, currentVersion }) => {
             }}
             InputLabelProps={{ shrink: true }}
           />
+          <br />
+          <div onClick={handleChangeKeepSelected} style={{ cursor: 'pointer' }}>
+            Manter selecionado
+            <Checkbox checked={keepSelected} />
+          </div>
         </Grid>
         {/* White Controller */}
         <Grid item xs={12} sm={4} style={{ padding: '32px' }}>
